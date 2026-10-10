@@ -69,13 +69,23 @@ function initTyping(e) {
 
 function calculateStats() {
     let timeElapsed = timeTotal - timeLeft;
+    
     if (timeElapsed > 0) {
         let correctChars = charIndex - mistakes;
+        
+        // WPM Calculation
         let wpm = Math.round((correctChars / 5) / (timeElapsed / 60));
         wpmDisplay.innerText = wpm < 0 || !wpm || !isFinite(wpm) ? 0 : wpm;
         
-        let accuracy = Math.round(((charIndex - mistakes) / charIndex) * 100);
-        accuracyDisplay.innerText = `${isNaN(accuracy) ? 100 : accuracy}%`;
+        // Accuracy Calculation (Total correct / Total typed attempts)
+        // We ensure we don't divide by zero if charIndex is 0
+        let totalAttempts = charIndex + mistakes; // or track total keypresses
+        let accuracy = charIndex > 0 ? Math.round((correctChars / charIndex) * 100) : 100;
+        
+        // Prevent negative accuracy if mistakes somehow outpace index
+        accuracy = Math.max(0, Math.min(100, accuracy));
+        
+        accuracyDisplay.innerText = `${accuracy}%`;
     }
 }
 
