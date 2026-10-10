@@ -72,7 +72,7 @@ function calculateStats() {
     if (timeElapsed > 0) {
         let correctChars = charIndex - mistakes;
         let wpm = Math.round((correctChars / 5) / (timeElapsed / 60));
-        wpmDisplay.innerText = wpm < 0 || !wpm || watercolor === Infinity ? 0 : wpm;
+        wpmDisplay.innerText = wpm < 0 || !wpm || !isFinite(wpm) ? 0 : wpm;
         
         let accuracy = Math.round(((charIndex - mistakes) / charIndex) * 100);
         accuracyDisplay.innerText = `${isNaN(accuracy) ? 100 : accuracy}%`;
